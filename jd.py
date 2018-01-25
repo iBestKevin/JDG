@@ -588,24 +588,24 @@ class JDG(object):
         action_url = "https://skunotify.jd.com/priceOrderSubMvc/priceSub.action"
         payload = {
             'hopePrice':price,
-            'receiverInfo.receiver':'于先生',
-            'receiverInfo.receicerPhoneNo':'189****7379',
+            'receiverInfo.receiver':'xx',
+            'receiverInfo.receicerPhoneNo':'xx',
             'receiverInfo.address':'',
-            'receiverInfo.id':138047381,
+            'receiverInfo.id':'xx',
             'receiverInfo.addressType':1,
-            'receiverInfo.area':'10-727-728-36997',
+            'receiverInfo.area':'xx',
             'receiverInfo.payway':4,
             'validTime':'THREE_MONTH',
             'skuId':id,
             'subChannel':1,
-            'pin':'jd_5878988325951',
+            'pin':'xx',
         }
         req = self.s.post(
             url=action_url,
             headers={
                 'Host':'skunotify.jd.com',
                 'Origin':'https://skunotify.jd.com',
-                'Referer':'https://skunotify.jd.com/pricenotify.html?skuId={}&pin=jd_5878988325951&webSite=1&origin=1&source=1&nocache=1516882679849&t=1516882680093'.format(id),
+                'Referer':'https://skunotify.jd.com/pricenotify.html?skuId={}&pin=xx&webSite=1&origin=1&source=1&nocache=1516882679849&t=1516882680093'.format(id),
                 'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.108 Safari/537.36'
             },
             data = payload
@@ -652,25 +652,8 @@ class JDG(object):
         return False
 
     def batch_notify(self,loginName,pwd,price):
-        is_succ_login = False
-        is_valid_cookie = self.check_cookies(loginName)
-        if not is_valid_cookie:
-            print u"cookie不存在或者已过期，正重新登录"
-            self.get_hidden_area()
-            self.showAuthCode(loginName)
-            self.down_auth_code()
-            is_succ_login = self.login(loginName,pwd)
-            if not is_succ_login:
-                print u"身份认证失败,请重新登录客户端"
-                return False
-        print u"身份认证成功"
-        from sqlalchemy import create_engine
-        engine = create_engine("mysql+pymysql://root://////@10.255.64.81:53306/jd?charset=utf8", max_overflow=5)
-        isql = 'select * from jd_item order by id desc'
-        cur = engine.execute(isql)
-        data = cur.fetchall()
-        for ele in data:
-            self.sku_notify(ele[1],price)
+        """批量预约没卵用,每日限制次数,乖乖爬虫"""
+        pass
         
     def miaosha(self,loginName,pwd,itime,skuId,count,type,retry,payId):
         self.retry = retry
